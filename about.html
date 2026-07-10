@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chongmin Edet - About</title>
+    <link rel="icon" type="image/jpeg" href="self_portrait_sketch.jpg" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f;
+            --yellow: #e8d44d;
+            --yellow-dim: rgba(232, 212, 77, 0.15);
+            --white: #f5f5f0;
+            --muted: #6a6a7a;
+            --card: #12121a;
+            --border: #1e1e2a;
+            --green: #4ade80;
+            --red: #f87171;
+            --blue: #60a5fa;
+            --purple: #c084fc;
+            --pixel: 'Press Start 2P', cursive;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background:
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* Scanline */
+        .scanline {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+        }
+
+        /* Header HUD */
+        .hud-top {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 40px;
+            background: rgba(10,10,15,0.95);
+            border-bottom: 2px solid var(--yellow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+            font-family: var(--pixel);
+            font-size: 0.5rem;
+        }
+        .hud-top .player-name { color: var(--yellow); }
+        .hud-top .hud-stats { display: flex; gap: 20px; }
+        .hud-top .stat { color: var(--muted); }
+        .hud-top .stat span { color: var(--green); }
+
+        /* XP Bar */
+        .xp-bar-container {
+            position: fixed;
+            top: 42px; left: 0; right: 0;
+            height: 4px;
+            background: var(--border);
+            z-index: 100;
+        }
+        .xp-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--yellow), var(--green));
+            width: 0%;
+            transition: width 2s ease;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 70px 20px 40px;
+        }
+
+        /* Character Card */
+        .char-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .char-card::before {
+            content: "PLAYER PROFILE";
+            position: absolute;
+            top: -12px; left: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            font-family: var(--pixel);
+            font-size: 0.6rem;
+            color: var(--yellow);
+            letter-spacing: 2px;
+        }
+        .char-header {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .char-avatar {
+            width: 100px;
+            height: 100px;
+            border: 3px solid var(--yellow);
+            border-radius: 4px;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+        .char-info h1 {
+            font-family: var(--pixel);
+            font-size: 1rem;
+            color: var(--yellow);
+            margin-bottom: 8px;
+        }
+        .char-info .class {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+        .char-info .class span {
+            color: var(--purple);
+            font-weight: 600;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px;
+        }
+        .stat-item .stat-label {
+            font-family: var(--pixel);
+            font-size: 0.45rem;
+            color: var(--muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .stat-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .stat-fill {
+            height: 100%;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 1.5s ease;
+        }
+        .stat-fill.green { background: var(--green); }
+        .stat-fill.blue { background: var(--blue); }
+        .stat-fill.purple { background: var(--purple); }
+        .stat-fill.yellow { background: var(--yellow); }
+        .stat-fill.red { background: var(--red); }
+
+        /* Dialog Box */
+        .dialog-box {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 24px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .dialog-box::before {
+            content: "DIALOG";
+            position: absolute;
+            top: -12px; left: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            font-family: var(--pixel);
+            font-size: 0.5rem;
+            color: var(--blue);
+            letter-spacing: 2px;
+        }
+        .dialog-text {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--muted);
+        }
+        .dialog-text .highlight {
+            color: var(--white);
+            font-weight: 600;
+        }
+        .dialog-text .emoji {
+            font-size: 1.1rem;
+        }
+        .dialog-text p { margin-bottom: 12px; }
+        .dialog-text p:last-child { margin-bottom: 0; }
+
+        /* Inventory */
+        .inventory {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 24px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .inventory::before {
+            content: "INVENTORY - FAVORITE GAMES";
+            position: absolute;
+            top: -12px; left: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            font-family: var(--pixel);
+            font-size: 0.5rem;
+            color: var(--green);
+            letter-spacing: 2px;
+        }
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+        .inv-slot {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .inv-slot:hover {
+            border-color: var(--yellow);
+            background: var(--yellow-dim);
+            transform: scale(1.05);
+        }
+        .inv-slot .game-icon {
+            font-size: 2rem;
+        }
+        .inv-slot .game-name {
+            font-family: var(--pixel);
+            font-size: 0.4rem;
+            color: var(--muted);
+            text-align: center;
+        }
+        .inv-slot .rarity {
+            position: absolute;
+            top: 4px; right: 4px;
+            font-size: 0.5rem;
+        }
+
+        /* Quest Log */
+        .quest-log {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 24px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .quest-log::before {
+            content: "SIDE QUESTS";
+            position: absolute;
+            top: -12px; left: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            font-family: var(--pixel);
+            font-size: 0.5rem;
+            color: var(--purple);
+            letter-spacing: 2px;
+        }
+        .quest-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .quest-item:last-child { border-bottom: none; }
+        .quest-icon { font-size: 1.2rem; }
+        .quest-info .quest-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 2px;
+        }
+        .quest-info .quest-desc {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+        .quest-status {
+            margin-left: auto;
+            font-family: var(--pixel);
+            font-size: 0.4rem;
+            padding: 4px 8px;
+            border-radius: 2px;
+            background: var(--green);
+            color: #000;
+        }
+
+        /* Social Links */
+        .social-panel {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            padding: 24px;
+            position: relative;
+        }
+        .social-panel::before {
+            content: "CONNECT";
+            position: absolute;
+            top: -12px; left: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            font-family: var(--pixel);
+            font-size: 0.5rem;
+            color: var(--red);
+            letter-spacing: 2px;
+        }
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .social-btn:hover {
+            border-color: var(--yellow);
+            background: var(--yellow-dim);
+            transform: translateY(-2px);
+        }
+        .social-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-family: var(--pixel);
+            font-size: 0.45rem;
+            color: var(--muted);
+            letter-spacing: 2px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--card);
+            border: 1px solid var(--yellow);
+            border-radius: 4px;
+            padding: 12px 20px;
+            font-family: var(--pixel);
+            font-size: 0.5rem;
+            color: var(--yellow);
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Pixel corners */
+        .pixel-corner {
+            position: relative;
+        }
+        .pixel-corner::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; right: -2px;
+            width: 8px; height: 8px;
+            background: var(--yellow);
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+        }
+
+        @media (max-width: 600px) {
+            .char-header { flex-direction: column; align-items: center; text-align: center; }
+            .hud-top { font-size: 0.4rem; padding: 0 10px; }
+            .hud-top .hud-stats { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+
+    <div class="hud-top">
+        <div class="player-name">CHONGMIN_EDET</div>
+        <div class="hud-stats">
+            <div class="stat">LVL <span>22</span></div>
+            <div class="stat">HP <span>100</span></div>
+            <div class="stat">XP <span>8,450</span></div>
+        </div>
+    </div>
+    <div class="xp-bar-container">
+        <div class="xp-bar" id="xp-bar"></div>
+    </div>
+
+    <div class="container">
+        <div class="char-card pixel-corner">
+            <div class="char-header">
+                <img src="me.png" alt="Chongmin Edet" class="char-avatar" />
+                <div class="char-info">
+                    <h1>CHONGMIN EDET</h1>
+                    <div class="class">Class: <span>Cybersecurity Specialist</span></div>
+                    <div class="class">Guild: <span>Ethical Hacker</span></div>
+                    <div class="class">Server: <span>AltSchool Africa</span></div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">Pen Testing</div>
+                    <div class="stat-bar"><div class="stat-fill green" data-width="85"></div></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Network Security</div>
+                    <div class="stat-bar"><div class="stat-fill blue" data-width="80"></div></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Scripting</div>
+                    <div class="stat-bar"><div class="stat-fill purple" data-width="75"></div></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Incident Response</div>
+                    <div class="stat-bar"><div class="stat-fill yellow" data-width="70"></div></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Coffee Consumption</div>
+                    <div class="stat-bar"><div class="stat-fill red" data-width="95"></div></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Music on Repeat</div>
+                    <div class="stat-bar"><div class="stat-fill purple" data-width="100"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog-box">
+            <div class="dialog-text">
+                <p>
+                    <span class="emoji">●( ️^ತ^)っ</span> Hehehe... Welcome to my lil' ol' space on the internet!
+                </p>
+                <p>
+                    I'm a <span class="highlight">cybersecurity professional</span> specializing in
+                    <span class="highlight">penetration testing</span>,
+                    <span class="highlight">incident response</span>, and
+                    <span class="highlight">network security</span>, with hands-on experience
+                    building web-based reconnaissance tools and completing CTF challenges on
+                    <span class="highlight">TryHackMe</span> and <span class="highlight">Hack The Box</span>.
+                </p>
+                <p>
+                    When I'm not doing anything techy, I'm <span class="highlight">drawing</span>,
+                    <span class="highlight">gaming</span>, and reading a bit. I'm always on
+                    headphones powered by <span class="highlight">music</span>.
+                </p>
+            </div>
+        </div>
+
+        <div class="inventory">
+            <div class="inventory-grid">
+                <div class="inv-slot" onclick="showToast('Minecraft - Creative Mode is peace')">
+                    <span class="rarity">⭐</span>
+                    <span class="game-icon">⛏️</span>
+                    <span class="game-name">Minecraft</span>
+                </div>
+                <div class="inv-slot" onclick="showToast('Call of Duty - Mission accomplished!')">
+                    <span class="rarity">🔥</span>
+                    <span class="game-icon">🎯</span>
+                    <span class="game-name">Call of Duty</span>
+                </div>
+                <div class="inv-slot" onclick="showToast('Heads - Ready to roll!')">
+                    <span class="rarity">🎲</span>
+                    <span class="game-icon">🪙</span>
+                    <span class="game-name">Heads</span>
+                </div>
+                <div class="inv-slot" onclick="showToast('Hollow Knight - The Knight awaits...')">
+                    <span class="rarity">⚔️</span>
+                    <span class="game-icon">🐛</span>
+                    <span class="game-name">Hollow Knight</span>
+                </div>
+                <div class="inv-slot" onclick="showToast('More games incoming...')">
+                    <span class="rarity">❓</span>
+                    <span class="game-icon">🎮</span>
+                    <span class="game-name">And More...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="quest-log">
+            <div class="quest-item">
+                <span class="quest-icon">🎨</span>
+                <div class="quest-info">
+                    <div class="quest-name">Drawing</div>
+                    <div class="quest-desc">Sketching ideas and characters</div>
+                </div>
+                <span class="quest-status">ACTIVE</span>
+            </div>
+            <div class="quest-item">
+                <span class="quest-icon">🎧</span>
+                <div class="quest-info">
+                    <div class="quest-name">Music 24/7</div>
+                    <div class="quest-desc">Always on headphones</div>
+                </div>
+                <span class="quest-status">ACTIVE</span>
+            </div>
+            <div class="quest-item">
+                <span class="quest-icon">📖</span>
+                <div class="quest-info">
+                    <div class="quest-name">Reading</div>
+                    <div class="quest-desc">A bit of everything</div>
+                </div>
+                <span class="quest-status">ACTIVE</span>
+            </div>
+            <div class="quest-item">
+                <span class="quest-icon">🎮</span>
+                <div class="quest-info">
+                    <div class="quest-name">Find Duo Partner</div>
+                    <div class="quest-desc">If you play, let's get on it!</div>
+                </div>
+                <span class="quest-status">IN PROGRESS</span>
+            </div>
+        </div>
+
+        <div class="social-panel">
+            <div class="social-grid">
+                <a href="https://discord.com/users/chongminedet" target="_blank" class="social-btn">
+                    <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    Discord
+                </a>
+                <a href="https://instagram.com/" target="_blank" class="social-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    Instagram
+                </a>
+                <a href="https://github.com/chongminedet" target="_blank" class="social-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="mailto:Edetun7@gmail.com" class="social-btn">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    Email
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>2026 — CHONGMIN EDET AKPAN</p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Toast
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // XP Bar
+        setTimeout(() => {
+            document.getElementById('xp-bar').style.width = '72%';
+        }, 500);
+
+        // Animate stat bars
+        setTimeout(() => {
+            document.querySelectorAll('.stat-fill').forEach(bar => {
+                bar.style.width = bar.dataset.width + '%';
+            });
+        }, 800);
+
+        // GSAP animations
+        gsap.from('.char-card', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' });
+        gsap.from('.dialog-box', { y: 30, opacity: 0, duration: 0.8, delay: 0.2, ease: 'power3.out' });
+        gsap.from('.inventory', { y: 30, opacity: 0, duration: 0.8, delay: 0.4, ease: 'power3.out' });
+        gsap.from('.quest-log', { y: 30, opacity: 0, duration: 0.8, delay: 0.6, ease: 'power3.out' });
+        gsap.from('.social-panel', { y: 30, opacity: 0, duration: 0.8, delay: 0.8, ease: 'power3.out' });
+
+        // Inv slot hover sound effect (visual)
+        document.querySelectorAll('.inv-slot').forEach(slot => {
+            slot.addEventListener('mouseenter', () => {
+                gsap.to(slot, { scale: 1.08, duration: 0.2, ease: 'back.out(1.7)' });
+            });
+            slot.addEventListener('mouseleave', () => {
+                gsap.to(slot, { scale: 1, duration: 0.2 });
+            });
+        });
+    </script>
+</body>
+</html>
