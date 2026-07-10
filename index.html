@@ -1,19 +1,16 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chongmin Edet - Portfolio_</title>
+    <title>Chongmin Edet — Links</title>
     <link rel="icon" type="image/jpeg" href="self_portrait_sketch.jpg" />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800;900&family=Permanent+Marker&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -32,8 +29,23 @@
       body {
         font-family: "Inter", sans-serif;
         background: var(--bg);
+        background-image: url("dead-robot.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
         color: var(--white);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
         overflow-x: hidden;
+      }
+      @supports (-webkit-touch-callout: none) {
+        body {
+          background-attachment: scroll;
+        }
       }
       body::before {
         content: "";
@@ -43,418 +55,8 @@
         width: 100%;
         height: 100%;
         z-index: -1;
-        background: linear-gradient(
-          180deg,
-          #1e1e2e 0%,
-          #181825 15%,
-          #11111b 30%,
-          #313244 50%,
-          #45475a 70%,
-          #1e1e2e 85%,
-          #181825 100%
-        );
-        background-size: 100% 300%;
-        animation: gradientFlow 8s ease-in-out infinite;
+        background: rgba(14, 14, 14, 0.7);
       }
-      @keyframes gradientFlow {
-        0% { background-position: 0% 0%; }
-        50% { background-position: 0% 100%; }
-        100% { background-position: 0% 0%; }
-      }
-      .cursor-blink {
-        animation: blink-cursor 0.7s step-end infinite;
-      }
-      @keyframes blink-cursor {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
-      }
-      #header-prefix {
-        color: var(--yellow);
-      }
-      .custom-cursor {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        transition: transform 0.15s ease;
-        background: url("self_portrait_sketch.jpg") center/cover no-repeat;
-        mix-blend-mode: difference;
-      }
-
-      a {
-        color: var(--yellow);
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-
-      .header {
-        padding: 30px 6%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 2px solid var(--yellow);
-      }
-      .header-title {
-        font-family: "Permanent Marker", cursive;
-        font-size: 2.5rem;
-        color: var(--yellow);
-        letter-spacing: 2px;
-        text-transform: uppercase;
-      }
-      .header-sub {
-        font-family: "Space Mono", monospace;
-        font-size: 0.75rem;
-        color: var(--muted);
-        letter-spacing: 3px;
-        text-transform: uppercase;
-      }
-
-      .vhs-banner {
-        background: var(--yellow);
-        color: #000;
-        padding: 8px 6%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: "Space Mono", monospace;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-      }
-      .vhs-rec {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .vhs-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #ff0000;
-        animation: blink 1s infinite;
-      }
-      @keyframes blink {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.3;
-        }
-      }
-
-      .vhs-eyes {
-        font-family: "Space Mono", monospace;
-        font-size: 0.9rem;
-        font-weight: 700;
-        display: inline-block;
-        animation: blink 1s infinite, swing 2s ease-in-out infinite;
-      }
-
-      @keyframes swing {
-        0%, 100% { transform: rotate(0deg); }
-        25% { transform: rotate(5deg); }
-        75% { transform: rotate(-5deg); }
-      }
-
-      .photo-label {
-        animation: swing 2s ease-in-out infinite;
-      }
-
-      .main-grid {
-        display: grid;
-        grid-template-columns: 340px 1fr;
-        min-height: calc(100vh - 140px);
-      }
-
-      .left-panel {
-        background: linear-gradient(
-          180deg,
-          #1e1e2e 0%,
-          #181825 15%,
-          #11111b 30%,
-          #313244 50%,
-          #45475a 70%,
-          #1e1e2e 85%,
-          #181825 100%
-        );
-        background-size: 100% 300%;
-        animation: gradientFlow 8s ease-in-out infinite;
-        border-right: 2px solid var(--border);
-        padding: 40px 30px;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-      }
-
-      .photo-frame {
-        position: relative;
-        width: 200px;
-        height: 200px;
-        margin: 0 auto;
-      }
-      .photo-frame img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border: 3px solid var(--yellow);
-        border-radius: 4px;
-      }
-      .photo-label {
-        position: absolute;
-        bottom: -10px;
-        right: -10px;
-        background: var(--yellow);
-        color: #000;
-        font-family: "Space Mono", monospace;
-        font-size: 0.6rem;
-        font-weight: 700;
-        padding: 4px 10px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transform: rotate(-3deg);
-      }
-
-      .name-section {
-        text-align: center;
-      }
-      .name-section h1 {
-        font-family: "Permanent Marker", cursive;
-        font-size: 1.6rem;
-        color: var(--yellow);
-        margin-bottom: 4px;
-      }
-      .name-section .role {
-        font-family: "Space Mono", monospace;
-        font-size: 0.65rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        line-height: 1.6;
-      }
-
-      .info-card {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 16px;
-      }
-      .info-card h3 {
-        font-family: "Space Mono", monospace;
-        font-size: 0.7rem;
-        color: var(--yellow);
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 6px;
-      }
-      .info-row {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.78rem;
-        margin-bottom: 6px;
-      }
-      .info-row .label {
-        color: var(--muted);
-      }
-      .info-row .value {
-        color: var(--white);
-        font-weight: 500;
-      }
-      .info-row a {
-        color: var(--yellow);
-        text-decoration: none;
-        font-weight: 500;
-      }
-      .info-row a:hover {
-        text-decoration: underline;
-      }
-
-      .skills-card {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 16px;
-      }
-      .skills-card h3 {
-        font-family: "Space Mono", monospace;
-        font-size: 0.7rem;
-        color: var(--yellow);
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 6px;
-      }
-      .skill-pill {
-        display: inline-block;
-        background: var(--yellow-dim);
-        color: var(--yellow);
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        margin: 3px 2px;
-        border: 1px solid rgba(232, 212, 77, 0.2);
-      }
-
-      .right-panel {
-        padding: 40px 40px;
-        display: flex;
-        flex-direction: column;
-        gap: 36px;
-      }
-
-      .section-title {
-        font-family: "Permanent Marker", cursive;
-        font-size: 1.4rem;
-        color: var(--yellow);
-        margin-bottom: 18px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .section-title::after {
-        content: "";
-        flex: 1;
-        height: 2px;
-        background: var(--border);
-      }
-
-      .about-text {
-        color: var(--muted);
-        font-size: 0.88rem;
-        line-height: 1.8;
-      }
-      .about-text strong {
-        color: var(--white);
-      }
-
-      .exp-item {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 14px;
-        position: relative;
-        border-left: 3px solid var(--yellow);
-      }
-      .tape {
-        position: absolute;
-        width: 80px;
-        height: 28px;
-        background: rgba(232, 212, 77, 0.15);
-        border: 1px solid rgba(232, 212, 77, 0.3);
-        transform: rotate(-5deg);
-        top: -14px;
-        left: 20px;
-      }
-      .exp-year {
-        font-family: "Space Mono", monospace;
-        font-size: 0.7rem;
-        color: var(--yellow);
-        background: var(--yellow-dim);
-        padding: 3px 10px;
-        border-radius: 4px;
-        display: inline-block;
-        margin-bottom: 8px;
-        font-weight: 700;
-      }
-      .exp-item h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 2px;
-      }
-      .exp-item .company {
-        color: var(--yellow);
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-      .exp-item p {
-        color: var(--muted);
-        font-size: 0.83rem;
-        line-height: 1.6;
-      }
-
-      .project-item {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 14px;
-        position: relative;
-        border-left: 3px solid var(--yellow);
-      }
-      .project-item h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 6px;
-      }
-      .project-item p {
-        color: var(--muted);
-        font-size: 0.83rem;
-        line-height: 1.6;
-        margin-bottom: 10px;
-      }
-      .project-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .project-tags span {
-        background: var(--yellow-dim);
-        color: var(--yellow);
-        padding: 3px 10px;
-        border-radius: 4px;
-        font-size: 0.7rem;
-        font-weight: 600;
-      }
-
-      .cert-list {
-        list-style: none;
-      }
-      .cert-list li {
-        color: var(--muted);
-        font-size: 0.83rem;
-        padding: 6px 0;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .cert-list li::before {
-        content: "🏅";
-        font-size: 0.75rem;
-      }
-      .cert-list li:last-child {
-        border-bottom: none;
-      }
-
-      .contact-row {
-        display: flex;
-        gap: 16px;
-        flex-wrap: wrap;
-      }
-      .contact-btn {
-        color: var(--yellow);
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
-      }
-      .contact-btn:hover {
-        transform: translateY(-2px);
-        filter: drop-shadow(0 0 8px rgba(232, 212, 77, 0.5));
-      }
-
       .static-overlay {
         position: fixed;
         top: 0;
@@ -462,7 +64,7 @@
         width: 100%;
         height: 100%;
         pointer-events: none;
-        z-index: 999;
+        z-index: 0;
         opacity: 0.03;
         background: repeating-linear-gradient(
           0deg,
@@ -472,601 +74,296 @@
           rgba(255, 255, 255, 0.03) 4px
         );
       }
-
-      .footer-bar {
-        background: var(--yellow);
-        color: #000;
-        padding: 10px 6%;
+      .container {
+        position: relative;
+        z-index: 1;
         display: flex;
-        justify-content: space-between;
-        font-family: "Space Mono", monospace;
-        font-size: 0.65rem;
-        font-weight: 700;
+        flex-direction: column;
+        align-items: center;
+        max-width: 420px;
+        width: 100%;
+      }
+      .photo-frame {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid var(--yellow);
+        margin-bottom: 20px;
+      }
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .name {
+        font-family: "Permanent Marker", cursive;
+        font-size: 1.8rem;
+        color: var(--yellow);
         text-transform: uppercase;
         letter-spacing: 2px;
+        margin-bottom: 6px;
+        text-align: center;
       }
-
-      @media (max-width: 900px) {
-        .main-grid {
-          grid-template-columns: 1fr;
-        }
-        .left-panel {
-          border-right: none;
-          border-bottom: 2px solid var(--border);
-        }
-        .right-panel {
-          padding: 30px 20px;
-        }
+      .tagline {
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 30px;
+        text-align: center;
       }
-
-
+      .links {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        width: 100%;
+      }
+      .link-btn {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px 20px;
+        text-decoration: none;
+        color: var(--white);
+        transition: all 0.3s ease;
+      }
+      .link-btn:hover {
+        border-color: var(--yellow);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(232, 212, 77, 0.15);
+        text-decoration: none;
+      }
+      .link-btn .icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--yellow-dim);
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+      .link-btn .icon svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--yellow);
+      }
+      .link-btn .text {
+        display: flex;
+        flex-direction: column;
+      }
+      .link-btn .text .label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--white);
+      }
+      .link-btn .text .desc {
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .link-btn.primary {
+        background: var(--yellow);
+        border-color: var(--yellow);
+      }
+      .link-btn.primary .icon {
+        background: rgba(0, 0, 0, 0.15);
+      }
+      .link-btn.primary .icon svg {
+        fill: #000;
+      }
+      .link-btn.primary .text .label {
+        color: #000;
+      }
+      .link-btn.primary .text .desc {
+        color: rgba(0, 0, 0, 0.6);
+      }
+      .divider {
+        width: 100%;
+        height: 1px;
+        background: var(--border);
+        margin: 10px 0;
+      }
+      .footer {
+        margin-top: 40px;
+        text-align: center;
+      }
+      .footer p {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
     </style>
   </head>
   <body>
-    <div class="custom-cursor" id="custom-cursor"></div>
     <div class="static-overlay"></div>
-
-    <div class="header">
-      <div>
-        <div class="header-title"><span id="header-prefix">0_0 </span><span id="header-title-text"></span><span class="cursor-blink">_</span></div>
-        <div class="header-sub" id="header-name"></div>
+    <div class="container">
+      <div class="photo-frame">
+        <img src="me.png" alt="Chongmin Edet Akpan" />
       </div>
-      <div style="text-align: right">
-        <div class="header-sub" id="header-role1"></div>
-        <div class="header-sub" id="header-role2"></div>
+      <div class="name">Chongmin Edet</div>
+      <div class="tagline">Ethical Hacker • Penetration Tester</div>
+
+      <div class="links">
+        <a href="non-professional.html" class="link-btn primary">
+          <div class="icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"
+              />
+            </svg>
+          </div>
+          <div class="text">
+            <span class="label">Portfolio</span>
+            <span class="desc">Projects, experience & certifications</span>
+          </div>
+        </a>
+
+        <a
+          href="https://docs.google.com/document/d/1znDx7GJmGYlftmK3x6JI-5Gx9toWpWHI/edit?usp=sharing&ouid=115463148374884683619&rtpof=true&sd=true"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-btn"
+        >
+          <div class="icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"
+              />
+            </svg>
+          </div>
+          <div class="text">
+            <span class="label">Resume</span>
+            <span class="desc">View or download my CV</span>
+          </div>
+        </a>
+
+        <div class="divider"></div>
+
+        <a href="mailto:Edetun7@gmail.com" class="link-btn">
+          <div class="icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+              />
+            </svg>
+          </div>
+          <div class="text">
+            <span class="label">Email</span>
+            <span class="desc">Edetun7@gmail.com</span>
+          </div>
+        </a>
+
+        <a
+          href="https://github.com/chongminedet"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-btn"
+        >
+          <div class="icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+          </div>
+          <div class="text">
+            <span class="label">GitHub</span>
+            <span class="desc">chongminedet</span>
+          </div>
+        </a>
+
+        <a
+          href="https://www.linkedin.com/in/chongmin-edet/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-btn"
+        >
+          <div class="icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+              />
+            </svg>
+          </div>
+          <div class="text">
+            <span class="label">LinkedIn</span>
+            <span class="desc">chongmin-edet</span>
+          </div>
+        </a>
+
+        <a
+          href="https://discord.com/users/chongminedet"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-btn"
+        >
+          <div class="icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"
+              />
+            </svg>
+          </div>
+          <div class="text">
+            <span class="label">Discord</span>
+            <span class="desc">chongminedet</span>
+          </div>
+        </a>
       </div>
-    </div>
 
-    <div class="vhs-banner">
-      <div class="vhs-rec"><span class="vhs-dot"></span> REC</div>
-      <div class="vhs-eyes" id="vhs-eyes">O_O</div>
-      <div>2026 / CHONGMIN EDET</div>
-    </div>
-
-    <div class="main-grid">
-      <!-- LEFT PANEL -->
-      <div class="left-panel">
-        <div class="photo-frame" style="height: 300px; width: 280px">
-          <img src="me.png" alt="Chongmin Edet Akpan" />
-          <div class="photo-label" id="photo-label">Ay <(＿＿)></div>
-        </div>
-
-        <div class="name-section">
-          <h1>CHONGMIN<br />EDET AKPAN</h1>
-          <div class="role">
-            <span id="typed-role"></span>
-          </div>
-        </div>
-
-        <div class="info-card">
-          <h3>Contact</h3>
-          <div class="info-row">
-            <span class="label">Email</span
-            ><a href="mailto:Edetun7@gmail.com">Edetun7@gmail.com</a>
-          </div>
-          <div class="info-row">
-            <span class="label">LinkedIn</span
-            ><a
-              href="https://www.linkedin.com/in/chongmin-edet/"
-              target="_blank"
-              >chongmin-edet</a
-            >
-          </div>
-          <div class="info-row">
-            <span class="label">GitHub</span
-            ><a href="https://github.com/chongminedet" target="_blank"
-              >chongminedet</a
-            >
-          </div>
-        </div>
-
-        <div class="skills-card">
-          <h3>Tools</h3>
-          <span class="skill-pill">Nmap</span>
-          <span class="skill-pill">Metasploit</span>
-          <span class="skill-pill">Wireshark</span>
-          <span class="skill-pill">Burp Suite</span>
-          <span class="skill-pill">SIEM</span>
-          <span class="skill-pill">Active Directory</span>
-          <span class="skill-pill">Docker</span>
-        </div>
-
-        <div class="skills-card">
-          <h3>Languages</h3>
-          <span class="skill-pill">Python</span>
-          <span class="skill-pill">JavaScript</span>
-          <span class="skill-pill">SQL</span>
-          <span class="skill-pill">Bash Scripting</span>
-        </div>
-
-        <div class="skills-card">
-          <h3>Cloud</h3>
-          <span class="skill-pill">AWS</span>
-          <span class="skill-pill">Google Cloud Platform</span>
-        </div>
-
-        <div class="skills-card">
-          <h3>Core Competencies</h3>
-          <span class="skill-pill">Vulnerability Assessment</span>
-          <span class="skill-pill">Network Security</span>
-          <span class="skill-pill">Incident Response</span>
-          <span class="skill-pill">Firewall Management</span>
-          <span class="skill-pill">Cryptography</span>
-          <span class="skill-pill">Linux/Windows Admin</span>
-          <span class="skill-pill">Penetration Testing</span>
-          <span class="skill-pill">Encryption</span>
-        </div>
+      <div class="footer">
+        <p>2026 — Chongmin Edet Akpan</p>
       </div>
-
-      <!-- RIGHT PANEL -->
-      <div class="right-panel">
-        <div>
-          <div class="section-title">Profile</div>
-          <div class="about-text">
-            <p>
-              <strong
-                >Cybersecurity professional specializing in penetration testing,
-                incident response, and network security,</strong
-              >
-              with hands-on experience building web-based reconnaissance tools
-              and completing CTF challenges on platforms like TryHackMe and Hack
-              The Box.
-            </p>
-            <br />
-            <p>
-              Aside from cybersecurity, I also have a
-              <strong>software engineering background</strong> after identifying
-              a gap in accessible, browser-based security tools. I am seeking to
-              contribute my skills in vulnerability assessment, SIEM, and
-              network architecture to a security-focused team.
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <div class="section-title">Experience</div>
-
-          <div class="exp-item">
-            <div class="tape"></div>
-            <span class="exp-year">2026 &gt; PRESENT</span>
-            <h3>Security Intern</h3>
-            <div class="company">Ubuntu Bridge Initiative (UBI)</div>
-            <p>
-              investigated a live breach, Assisted in security operations and
-              vulnerability assessments across internal infrastructure.
-              Participated in incident response activities and contributed to
-              SOC workflow documentation. Gained hands-on experience with
-              Linux-based security tools and network monitoring.
-            </p>
-          </div>
-
-          <div class="exp-item">
-            <span class="exp-year">2025 &gt; PRESENT</span>
-            <h3>Cybersecurity Program</h3>
-            <div class="company">ALtSchool Africa</div>
-            <p>
-              Full-stack development and cybersecurity training. Built 10+
-              projects including OSINT tools with 21 recon modules.
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <div class="section-title">Featured_Projects</div>
-
-          <div class="project-item">
-            <a
-              href="http://recon_set.mooo.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <h3>Recon_set</h3>
-            </a>
-            <p>
-              A tool for performing multiple passive and active reconnaissance
-              scans on the web. You'd normally need a Linux machine or
-              separately installed tools to perform scans — this holds all the
-              most basic scans we use for everyday reconnaissance. 21 tools in
-              one Dockerized web app.
-            </p>
-            <div class="project-tags">
-              <span>Python</span><span>React</span><span>Docker</span
-              ><span>Flask</span><span>Nginx</span>
-            </div>
-          </div>
-
-          <div class="project-item">
-            <a
-              href="https://medium.com/@edetun7/aws-cloud-security-monitoring-project-31e1b0c28e25"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <h3>AWS Cloud Security Monitoring</h3>
-            </a>
-            <p>
-              Conducting cloud monitoring on AWS — security monitoring project.
-              Published write-up on Medium.
-            </p>
-            <div class="project-tags">
-              <span>AWS</span><span>Cloud Security</span><span>Monitoring</span>
-            </div>
-          </div>
-
-          <div class="project-item">
-            <a
-              href="https://docs.google.com/document/d/15OPyeJ4qAaJWRnvmg3NfUfE_gA4IZh1a8s0O7M2yufg/edit?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <h3>
-                Wazuh Manager VM Setup on Windows Host & Endpoint Policy
-                Configuration
-              </h3>
-            </a>
-            <p>
-              Documented the process of setting up a Wazuh Manager virtual
-              machine on a Windows host and configuring endpoint policies.
-            </p>
-            <div class="project-tags">
-              <span>VMware</span><span>Wazuh</span><span>Windows Server</span
-              ><span>SIEM</span>
-            </div>
-          </div>
-
-          <div class="project-item">
-            <a
-              href="https://docs.google.com/document/d/1xTalL_oi7IoqCK_2H98tvAsIq3UtwV7rnCSn77JOj84/edit?tab=t.0#heading=h.vse4pnog71uc"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <h3>
-                Setting up and configuring security policies for sophos firewall
-              </h3>
-            </a>
-            <p>
-              Documented the process of setting up and configuring security
-              policies for a Sophos firewall, including firewall rules, VPN
-              configuration, and intrusion prevention settings.
-            </p>
-            <div class="project-tags">
-              <span>Sophos</span><span>Firewall</span><span>Security</span>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="section-title">Certifications</div>
-          <ul class="cert-list">
-            <li>
-              <a
-                href="https://drive.google.com/file/d/1gVgB9QI_HbX6Aw2aaDmIovHJd2njUgb0/view?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                >ISC2 Cybersecurity Certification</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://drive.google.com/file/d/14SV7Dqc5P54p0-fD6viBe3P9WYYZG7M9/view?usp=drive_link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >UBI Certificate - Stage 0</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://drive.google.com/file/d/11G1e4CmC5L3U6CWWNpJGzYqFh_Oa7OHC/view?usp=drive_link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >UBI Certificate - Stage 1</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://drive.google.com/file/d/13aUIZqnbp2S4FWwwy1DsIPpA0qgnTsvf/view?usp=drive_link"
-                target="_blank"
-                rel="noopener noreferrer"
-                >UBI Certificate - Stage 2</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://drive.google.com/file/d/1i6l_QJMDqXQhN0AbRtwB8Q_-fSKRTbUq/view?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                >UBI Certificate - Stage 3</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://drive.google.com/file/d/1snOEBA8uYQoCF6rpTTejJAUEZWqEOi0X/view?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                >UBI Certificate - Stage 4</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://drive.google.com/file/d/1KCMgqUZKnInEe7Y26O_r74DPXYHBEN03/view?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                >UBI Cybercore Promotion</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://www.credly.com/badges/1e7152ee-154d-45b2-ba54-5aa2949e4669/public_url"
-                target="_blank"
-                rel="noopener noreferrer"
-                >CCNA Introduction to Networks Badge</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://www.credly.com/badges/f31d0d71-b032-4cc1-a977-673b4ffe3e1d/public_url"
-                target="_blank"
-                rel="noopener noreferrer"
-                >CCNA: Switching, Routing, and Wireless Essentials Badge</a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="section-title">Links</div>
-          <div class="contact-row">
-            <a href="linked-tree.html" class="contact-btn" title="Link Tree">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            </a>
-            <a href="https://docs.google.com/document/d/1znDx7GJmGYlftmK3x6JI-5Gx9toWpWHI/edit?usp=sharing&ouid=115463148374884683619&rtpof=true&sd=true" target="_blank" class="contact-btn" title="Resume">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <div>
-          <div class="section-title">Contact</div>
-          <div class="contact-row">
-            <a href="mailto:Edetun7@gmail.com" class="contact-btn" title="Email">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13L2 4"/></svg>
-            </a>
-            <a href="https://github.com/chongminedet" class="contact-btn outline" title="GitHub">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            </a>
-            <a href="https://www.linkedin.com/in/chongmin-edet/" class="contact-btn outline" title="LinkedIn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            </a>
-            <a href="https://discord.com/users/chongminedet" class="contact-btn outline" title="Discord">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-            </a>
-          </div>
-        </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bar">
-      <span id="footer-name"></span>
-      <span id="footer-year"></span>
-      <span id="footer-email"></span>
     </div>
 
     <script>
-      const cursor = document.getElementById("custom-cursor");
-      document.addEventListener("mousemove", (e) => {
-        cursor.style.left = e.clientX - 20 + "px";
-        cursor.style.top = e.clientY - 20 + "px";
-      });
-      document
-        .querySelectorAll(".project-item, .exp-item, .skill-pill")
-        .forEach((el) => {
-          el.addEventListener("mouseenter", () => {
-            cursor.style.transform = "scale(1.8)";
-          });
-          el.addEventListener("mouseleave", () => {
-            cursor.style.transform = "scale(1)";
-          });
-        });
-
-      const vhsEyes = document.getElementById("vhs-eyes");
-      const photoLabel = document.getElementById("photo-label");
-      setInterval(() => {
-        vhsEyes.textContent = "- _ -";
-        photoLabel.textContent = "Ay <(- _ -)>";
-        setTimeout(() => {
-          vhsEyes.textContent = "O_O";
-          photoLabel.textContent = "Ay <(＿＿)>";
-        }, 150);
-      }, 3000);
-
-      // Lenis Smooth Scroll
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: "vertical",
-        gestureDirection: "vertical",
-        smooth: true,
-      });
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-
-      // Header terminal typing
-      function typeText(element, text, speed) {
-        return new Promise((resolve) => {
-          let i = 0;
-          const interval = setInterval(() => {
-            element.textContent = text.substring(0, i + 1);
-            i++;
-            if (i === text.length) {
-              clearInterval(interval);
-              resolve();
-            }
-          }, speed);
-        });
-      }
-
-      async function animateHeader() {
-        await typeText(document.getElementById("header-title-text"), "Portfolio", 80);
-        await new Promise((r) => setTimeout(r, 300));
-        await typeText(document.getElementById("header-name"), "Chongmin Edet Akpan", 50);
-        await new Promise((r) => setTimeout(r, 200));
-        await typeText(document.getElementById("header-role1"), "Ethical Hacker", 50);
-        await new Promise((r) => setTimeout(r, 100));
-        await typeText(document.getElementById("header-role2"), "Penetration Tester", 50);
-      }
-      animateHeader();
-
-      // GSAP ScrollTrigger
-      gsap.registerPlugin(ScrollTrigger);
-
-      gsap.utils.toArray(".section-title").forEach((title) => {
-        gsap.from(title, {
-          scrollTrigger: {
-            trigger: title,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-          x: -50,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-        });
-      });
-
-      gsap.utils.toArray(".exp-item, .project-item").forEach((item) => {
-        gsap.from(item, {
-          scrollTrigger: {
-            trigger: item,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-          y: 40,
-          opacity: 0,
-          duration: 0.7,
-          ease: "power2.out",
-        });
-      });
-
-      gsap.utils.toArray(".cert-list li").forEach((cert, i) => {
-        gsap.from(cert, {
-          scrollTrigger: {
-            trigger: cert,
-            start: "top 90%",
-          },
-          x: -30,
-          opacity: 0,
-          duration: 0.5,
-          delay: i * 0.1,
-          ease: "power2.out",
-        });
-      });
-
-      gsap.utils.toArray(".skill-pill").forEach((pill, i) => {
-        gsap.from(pill, {
-          scrollTrigger: {
-            trigger: pill,
-            start: "top 90%",
-          },
-          scale: 0,
-          opacity: 0,
-          duration: 0.4,
-          delay: i * 0.03,
-          ease: "back.out(1.7)",
-        });
-      });
-
+      // Animate links on load
       gsap.from(".photo-frame", {
-        scrollTrigger: {
-          trigger: ".photo-frame",
-          start: "top 80%",
-        },
         scale: 0.5,
         opacity: 0,
-        rotation: -10,
         duration: 0.8,
         ease: "back.out(1.7)",
       });
 
-      gsap.from(".name-section h1", {
-        y: 30,
+      gsap.from(".name", {
+        y: 20,
         opacity: 0,
-        duration: 1,
+        duration: 0.6,
+        delay: 0.2,
+        ease: "power3.out",
+      });
+
+      gsap.from(".tagline", {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
         delay: 0.3,
         ease: "power3.out",
       });
 
-      // Typed.js
-      new Typed("#typed-role", {
-        strings: [
-          "Ethical Hacker + Penetration Tester",
-          "Incident Responder + SOC Analyst",
-          "Network Architect + Network Engineer",
-        ],
-        typeSpeed: 50,
-        backSpeed: 30,
-        backDelay: 2000,
-        loop: true,
-        showCursor: true,
-        cursorChar: "|",
-      });
-
-      // Anime.js - bounce contact icons
       anime({
-        targets: ".contact-btn",
-        translateY: [-100, 0],
-        scale: [0, 1],
-        delay: anime.stagger(150),
-        duration: 800,
-        easing: "easeOutBounce",
+        targets: ".link-btn",
+        translateY: [30, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(80, { start: 0.4 }),
+        duration: 600,
+        easing: "easeOutCubic",
       });
 
-      // Footer loading text
-      const footerTexts = [
-        { id: "footer-name", text: "Chongmin Edet Akpan" },
-        { id: "footer-year", text: "2026 - All Rights Reserved" },
-        { id: "footer-email", text: "Edetun7@gmail.com" },
-      ];
-
-      function typeFooterText(element, text, speed) {
-        return new Promise((resolve) => {
-          let i = 0;
-          element.textContent = "[ ";
-          const interval = setInterval(() => {
-            element.textContent = "[ " + text.substring(0, i + 1);
-            i++;
-            if (i === text.length) {
-              clearInterval(interval);
-              element.textContent = "[ " + text + " ]";
-              resolve();
-            }
-          }, speed);
-        });
-      }
-
-      async function animateFooter() {
-        for (const item of footerTexts) {
-          const el = document.getElementById(item.id);
-          await typeFooterText(el, item.text, 40);
-          await new Promise((r) => setTimeout(r, 200));
-        }
-      }
-
-      const footerObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              animateFooter();
-              footerObserver.disconnect();
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-      footerObserver.observe(document.querySelector(".footer-bar"));
+      gsap.from(".footer", {
+        opacity: 0,
+        duration: 1,
+        delay: 1.2,
+      });
     </script>
   </body>
 </html>
