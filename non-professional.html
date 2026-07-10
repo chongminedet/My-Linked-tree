@@ -535,6 +535,49 @@
       }
       .right-panel::-webkit-scrollbar { width: 0; }
       .right-panel { scrollbar-width: none; -ms-overflow-style: none; }
+
+      /* Music Player */
+      .music-player {
+        position: fixed;
+        bottom: 12px;
+        right: 12px;
+        z-index: 1000;
+        background: #111;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.55rem;
+        color: var(--muted);
+      }
+      .music-player .eq {
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 12px;
+      }
+      .music-player .eq span {
+        width: 3px;
+        background: var(--yellow);
+        animation: eq 0.8s ease-in-out infinite alternate;
+      }
+      .music-player .eq span:nth-child(1) { height: 4px; animation-delay: 0s; }
+      .music-player .eq span:nth-child(2) { height: 8px; animation-delay: 0.2s; }
+      .music-player .eq span:nth-child(3) { height: 6px; animation-delay: 0.4s; }
+      .music-player .eq span:nth-child(4) { height: 10px; animation-delay: 0.1s; }
+      @keyframes eq {
+        from { height: 3px; }
+        to { height: 12px; }
+      }
+      .music-player .track-name {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     
     </style>
   </head>
@@ -885,6 +928,33 @@
         </div>
       </div>
     </div>
+
+    <div class="music-player">
+      <div class="eq">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <span class="track-name">Lofi Echoes in the Rain</span>
+    </div>
+    <div id="yt-player" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;"></div>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+      let player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('yt-player', {
+          height: '1',
+          width: '1',
+          videoId: 'ebdjkqhFpN8',
+          playerVars: { autoplay: 1, mute: 1, loop: 1, playlist: 'ebdjkqhFpN8' },
+          events: { onReady: function(e) { e.target.playVideo(); } }
+        });
+      }
+      document.addEventListener('click', function unmute() {
+        if (player && player.unMute) {
+          player.unMute();
+          document.removeEventListener('click', unmute);
+        }
+      });
+    </script>
 
     <div class="footer-bar">
       <span id="footer-name"></span>
