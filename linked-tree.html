@@ -231,10 +231,9 @@
           #111 23%, #111 100%);
         box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         animation: spin 4s linear infinite;
-        animation-play-state: paused;
         cursor: pointer;
       }
-      .vinyl:hover {
+      .vinyl.spinning {
         animation-play-state: running;
       }
       .vinyl::before {
@@ -294,8 +293,11 @@
         border: 1px solid var(--border);
         border-radius: 4px;
         transition: all 0.3s;
+        background: transparent;
+        cursor: pointer;
       }
-      .song-link:hover {
+      .song-link:hover,
+      .song-link.active {
         color: var(--yellow);
         border-color: var(--yellow);
       }
@@ -424,16 +426,36 @@
       </div>
 
       <div class="record-player">
-        <div class="record-player-label">Now Playing</div>
+        <div class="record-player-label">Now Playing: <span id="now-playing">Kiss of Death</span></div>
         <div class="vinyl-container">
-          <div class="vinyl" onclick="window.open('https://music.youtube.com/watch?v=ebdjkqhFpN8', '_blank')"></div>
+          <div class="vinyl spinning" id="vinyl"></div>
           <div class="player-arm"></div>
         </div>
         <div class="song-links">
-          <a href="https://music.youtube.com/watch?v=ebdjkqhFpN8" target="_blank" class="song-link">Kiss of Death</a>
-          <a href="https://music.youtube.com/watch?v=A4kLcDWBYcQ" target="_blank" class="song-link">Track 2</a>
+          <button class="song-link active" onclick="playTrack('o7NnkfTIT8Q', 'Kiss of Death')">Kiss of Death</button>
+          <button class="song-link" onclick="playTrack('A4kLcDWBYcQ', 'Track 2')">Track 2</button>
         </div>
+        <div id="yt-player" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;"></div>
       </div>
+      <script src="https://www.youtube.com/iframe_api"></script>
+      <script>
+        let player;
+        function onYouTubeIframeAPIReady() {
+          player = new YT.Player('yt-player', {
+            height: '1',
+            width: '1',
+            videoId: 'o7NnkfTIT8Q',
+            playerVars: { autoplay: 1, loop: 1, playlist: 'o7NnkfTIT8Q' },
+            events: { onReady: (e) => e.target.playVideo() }
+          });
+        }
+        function playTrack(id, name) {
+          document.getElementById('now-playing').textContent = name;
+          document.querySelectorAll('.song-link').forEach(b => b.classList.remove('active'));
+          event.target.classList.add('active');
+          player.loadVideoById(id);
+        }
+      </script>
 
       <div class="footer">
         <p>2026 — Chongmin Edet Akpan</p>
