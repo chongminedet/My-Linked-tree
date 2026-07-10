@@ -499,6 +499,43 @@
         }
       }
 
+      /* Custom Scrollbar */
+      .scroller {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+      }
+      .scroller > svg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 8px;
+        pointer-events: none;
+        height: 100%;
+        width: 64px;
+        z-index: 10;
+        overflow: visible !important;
+      }
+      .bar__thumb, .bar__track {
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .scroller:hover .bar__thumb,
+      .scroller:hover .bar__track {
+        opacity: 1;
+      }
+      .bar__thumb {
+        stroke: var(--yellow);
+        stroke-dasharray: var(--thumb-size) var(--track-length);
+        stroke-width: 5px;
+      }
+      .bar__track {
+        stroke: rgba(255,255,255,0.1);
+        stroke-width: 5px;
+      }
+      .right-panel::-webkit-scrollbar { width: 0; }
+      .right-panel { scrollbar-width: none; -ms-overflow-style: none; }
+      <style id="scroller-frames"></style>
 
     </style>
   </head>
@@ -599,7 +636,11 @@
       </div>
 
       <!-- RIGHT PANEL -->
-      <div class="right-panel">
+      <div class="right-panel scroller" id="scroller">
+        <svg class="scroller__bar bar" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+          <path class="bar__thumb" fill="none" stroke-linecap="round" />
+          <path class="bar__track" fill="none" stroke-linecap="round" />
+        </svg>
         <div>
           <div class="section-title">Profile</div>
           <div class="about-text">
@@ -1067,6 +1108,73 @@
         { threshold: 0.5 }
       );
       footerObserver.observe(document.querySelector(".footer-bar"));
+
+      // Custom Scrollbar
+      const scroller = document.getElementById('scroller');
+      const list = scroller;
+      const bar = scroller.querySelector('.scroller__bar');
+      const track = scroller.querySelector('.bar__track');
+      const thumb = bar.querySelector('.bar__thumb');
+      const styles = document.getElementById('scroller-frames');
+
+      const CONFIG = {
+        radius: 24,
+        stroke: 5,
+        inset: 4,
+        thumb: 60,
+        finish: 5,
+      };
+
+      const syncBar = () => {
+        const mid = CONFIG.radius;
+        const innerRad = Math.max(0, CONFIG.radius - (CONFIG.inset + CONFIG.stroke * 0.5));
+        const padTop = CONFIG.inset + CONFIG.stroke * 0.5;
+        const padLeft = CONFIG.radius * 2 - padTop;
+        const height = scroller.offsetHeight;
+
+        bar.setAttribute('viewBox', `0 0 ${CONFIG.radius * 2} ${height}`);
+
+        let d = `M${mid},${padTop} L${padLeft},${padTop}`;
+        if (innerRad > 0) d = `M${mid},${padTop} a${innerRad},${innerRad} 0 0 1 ${innerRad} ${innerRad}`;
+        d += ` L${padLeft},${height - (CONFIG.inset + CONFIG.stroke * 0.5 + innerRad)}`;
+        if (innerRad > 0) d += ` a${innerRad},${innerRad} 0 0 1 ${-innerRad} ${innerRad}`;
+        d += ` L${mid},${height - (CONFIG.inset + CONFIG.stroke * 0.5)}`;
+
+        thumb.setAttribute('d', d);
+        track.setAttribute('d', d);
+
+        const totalLen = Math.ceil(track.getTotalLength());
+        const cornerLen = Math.ceil(thumb.getTotalLength());
+
+        scroller.style.setProperty('--thumb-size', CONFIG.thumb);
+        scroller.style.setProperty('--track-length', totalLen);
+
+        styles.innerHTML = `
+          @keyframes scroll {
+            0% { stroke-dashoffset: ${CONFIG.thumb}; }
+            100% { stroke-dashoffset: ${-totalLen + CONFIG.thumb}; }
+          }
+        `;
+
+        thumb.style.animation = 'none';
+        thumb.offsetHeight;
+        thumb.style.animation = `scroll linear`;
+        thumb.style.animationTimeline = 'scroll(self)';
+      };
+
+      if (CSS.supports('animation-timeline: scroll()')) {
+        syncBar();
+        new ResizeObserver(syncBar).observe(scroller);
+      } else {
+        // Fallback: GSAP
+        gsap.to(thumb, {
+          scrollTrigger: { scroller: list, scrub: true },
+          strokeDashoffset: () => -Math.ceil(track.getTotalLength()) + CONFIG.thumb,
+          ease: 'none',
+        });
+        syncBar();
+        new ResizeObserver(syncBar).observe(scroller);
+      }
     </script>
   </body>
 </html>
