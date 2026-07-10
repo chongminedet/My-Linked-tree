@@ -391,20 +391,30 @@
         ];
         let currentTrack = 0;
         let player;
+
         function onYouTubeIframeAPIReady() {
           player = new YT.Player('yt-player', {
             height: '1',
             width: '1',
             videoId: tracks[0].id,
-            playerVars: { autoplay: 1, loop: 1, playlist: tracks.map(t => t.id).join(',') },
-            events: { onReady: (e) => e.target.playVideo() }
+            playerVars: { autoplay: 1, mute: 1, loop: 1, playlist: tracks.map(t => t.id).join(',') },
+            events: { onReady: function(e) { e.target.playVideo(); } }
           });
         }
+
         function nextTrack() {
           currentTrack = (currentTrack + 1) % tracks.length;
           document.getElementById('track-name').textContent = tracks[currentTrack].name;
           player.loadVideoById(tracks[currentTrack].id);
         }
+
+        // Unmute on first user interaction
+        document.addEventListener('click', function unmute() {
+          if (player && player.unMute) {
+            player.unMute();
+            document.removeEventListener('click', unmute);
+          }
+        });
       </script>
 
       <div class="footer">
