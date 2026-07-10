@@ -11,6 +11,7 @@
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -195,111 +196,65 @@
         text-align: center;
       }
       .footer p {
-        font-family: "Space Mono", monospace;
+        font-family: 'Space Mono', monospace;
         font-size: 0.65rem;
         color: var(--muted);
         letter-spacing: 2px;
         text-transform: uppercase;
       }
-      .record-player {
-        margin-top: 20px;
+
+      /* Music Player */
+      .music-player {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 1000;
+        background: #111;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 6px 10px;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: 10px;
-      }
-      .record-player-label {
-        font-family: "Space Mono", monospace;
-        font-size: 0.6rem;
-        color: var(--muted);
-        letter-spacing: 2px;
-        text-transform: uppercase;
-      }
-      .vinyl-container {
-        position: relative;
-        width: 80px;
-        height: 80px;
-      }
-      .vinyl {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: radial-gradient(circle at center,
-          #333 0%, #333 15%,
-          #111 16%, #111 18%,
-          #222 19%, #222 22%,
-          #111 23%, #111 100%);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        animation: spin 4s linear infinite;
-        cursor: pointer;
-      }
-      .vinyl.spinning {
-        animation-play-state: running;
-      }
-      .vinyl::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: var(--yellow);
-        border: 2px solid #000;
-      }
-      .vinyl::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #000;
-      }
-      @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-      .player-arm {
-        position: absolute;
-        top: -5px;
-        right: -15px;
-        width: 30px;
-        height: 4px;
-        background: #666;
-        border-radius: 2px;
-        transform-origin: right center;
-        transform: rotate(-30deg);
-        transition: transform 0.3s;
-      }
-      .vinyl-container:hover .player-arm {
-        transform: rotate(-10deg);
-      }
-      .song-links {
-        display: flex;
         gap: 8px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .song-link {
-        font-family: "Space Mono", monospace;
+        font-family: 'Space Mono', monospace;
         font-size: 0.55rem;
         color: var(--muted);
-        text-decoration: none;
-        padding: 4px 8px;
-        border: 1px solid var(--border);
-        border-radius: 4px;
-        transition: all 0.3s;
-        background: transparent;
-        cursor: pointer;
       }
-      .song-link:hover,
-      .song-link.active {
+      .music-player .eq {
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 12px;
+      }
+      .music-player .eq span {
+        width: 3px;
+        background: var(--yellow);
+        animation: eq 0.8s ease-in-out infinite alternate;
+      }
+      .music-player .eq span:nth-child(1) { height: 4px; animation-delay: 0s; }
+      .music-player .eq span:nth-child(2) { height: 8px; animation-delay: 0.2s; }
+      .music-player .eq span:nth-child(3) { height: 6px; animation-delay: 0.4s; }
+      .music-player .eq span:nth-child(4) { height: 10px; animation-delay: 0.1s; }
+      @keyframes eq {
+        from { height: 3px; }
+        to { height: 12px; }
+      }
+      .music-player .track-name {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .music-player .track-btn {
+        background: none;
+        border: none;
+        color: var(--muted);
+        cursor: pointer;
+        padding: 2px;
+        font-size: 0.7rem;
+      }
+      .music-player .track-btn:hover {
         color: var(--yellow);
-        border-color: var(--yellow);
       }
     </style>
   </head>
@@ -310,12 +265,7 @@
         <img src="me.png" alt="Chongmin Edet Akpan" />
       </div>
       <div class="name">Chongmin Edet</div>
-      <div class="tagline">
-        <span id="typed-role"
-          >Hacker • Penetration Tester incident responder+soc analyst, Network
-          engineering + Network Architecture
-        </span>
-      </div>
+      <div class="tagline"><span id="typed-tagline"></span></div>
 
       <div class="links">
         <a href="non-professional.html" class="link-btn primary">
@@ -425,35 +375,35 @@
         </a>
       </div>
 
-      <div class="record-player">
-        <div class="record-player-label">Now Playing: <span id="now-playing">Kiss of Death</span></div>
-        <div class="vinyl-container">
-          <div class="vinyl spinning" id="vinyl"></div>
-          <div class="player-arm"></div>
+      <div class="music-player">
+        <div class="eq">
+          <span></span><span></span><span></span><span></span>
         </div>
-        <div class="song-links">
-          <button class="song-link active" onclick="playTrack('o7NnkfTIT8Q', 'Kiss of Death')">Kiss of Death</button>
-          <button class="song-link" onclick="playTrack('A4kLcDWBYcQ', 'Track 2')">Track 2</button>
-        </div>
-        <div id="yt-player" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;"></div>
+        <span class="track-name" id="track-name">Kiss of Death</span>
+        <button class="track-btn" onclick="nextTrack()">&#9654;</button>
       </div>
+      <div id="yt-player" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;"></div>
       <script src="https://www.youtube.com/iframe_api"></script>
       <script>
+        const tracks = [
+          { id: 'o7NnkfTIT8Q', name: 'Kiss of Death' },
+          { id: 'A4kLcDWBYcQ', name: 'Track 2' }
+        ];
+        let currentTrack = 0;
         let player;
         function onYouTubeIframeAPIReady() {
           player = new YT.Player('yt-player', {
             height: '1',
             width: '1',
-            videoId: 'o7NnkfTIT8Q',
-            playerVars: { autoplay: 1, loop: 1, playlist: 'o7NnkfTIT8Q' },
+            videoId: tracks[0].id,
+            playerVars: { autoplay: 1, loop: 1, playlist: tracks.map(t => t.id).join(',') },
             events: { onReady: (e) => e.target.playVideo() }
           });
         }
-        function playTrack(id, name) {
-          document.getElementById('now-playing').textContent = name;
-          document.querySelectorAll('.song-link').forEach(b => b.classList.remove('active'));
-          event.target.classList.add('active');
-          player.loadVideoById(id);
+        function nextTrack() {
+          currentTrack = (currentTrack + 1) % tracks.length;
+          document.getElementById('track-name').textContent = tracks[currentTrack].name;
+          player.loadVideoById(tracks[currentTrack].id);
         }
       </script>
 
@@ -500,6 +450,21 @@
         opacity: 0,
         duration: 1,
         delay: 1.2,
+      });
+
+      // Typed.js
+      new Typed("#typed-tagline", {
+        strings: [
+          "Ethical Hacker • Penetration Tester",
+          "Incident Responder • SOC Analyst",
+          "Network Engineering • Network Architecture",
+        ],
+        typeSpeed: 40,
+        backSpeed: 30,
+        backDelay: 2000,
+        loop: true,
+        showCursor: true,
+        cursorChar: "|",
       });
     </script>
   </body>
